@@ -1,0 +1,24 @@
+{
+  "name": "simpleapp",
+  "version": "1.0.0",
+  "description": "Just a simple app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adleroliveira/simpleapp.git"
+  },
+  "keywords": [
+    "app",
+    "crud",
+    "hapi"
+  ],
+  "author": "Adler Oliveira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adleroliveira/simpleapp/issues"
+  },
+  "homepage": "https://github.com/adleroliveira/simpleapp#readme"
+}
