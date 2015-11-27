@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/adleroliveira/simpleapp/issues"
   },
-  "homepage": "https://github.com/adleroliveira/simpleapp#readme"
+  "homepage": "https://github.com/adleroliveira/simpleapp#readme",
+  "dependencies": {
+    "hapi": "^11.1.2"
+  }
 }
