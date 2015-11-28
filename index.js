@@ -32,7 +32,9 @@ server.register([
     },
     {
         register: require('bedwetter'),
-        options: {}
+        options: {
+            migrate: 'safe'
+        }
     }
 ], function (err) {
     if (err) {
