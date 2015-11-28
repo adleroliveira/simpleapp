@@ -13,7 +13,7 @@ var dogwaterOptions = {
     adapters: {
         userDisk: 'sails-disk'
     },
-    defaults: {
+    data: {
         migrate: 'safe'
     },
     models: [require('./models/user')]
@@ -32,9 +32,7 @@ server.register([
     },
     {
         register: require('bedwetter'),
-        options: {
-            migrate: 'safe'
-        }
+        options: {}
     }
 ], function (err) {
     if (err) {
