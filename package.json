@@ -24,7 +24,7 @@
   "dependencies": {
     "bedwetter": "^1.8.2",
     "blipp": "^2.3.0",
-    "dogwater": "^0.4.7",
+    "dogwater": "https://github.com/adleroliveira/dogwater/tarball/65be47f29067e9994a8151d4959147325956689a",
     "hapi": "^11.1.2",
     "inert": "^3.2.0",
     "lodash": "^3.10.1",

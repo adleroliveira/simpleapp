@@ -13,7 +13,7 @@ var dogwaterOptions = {
     adapters: {
         userDisk: 'sails-disk'
     },
-    data: {
+    defaults: {
         migrate: 'safe'
     },
     models: [require('./models/user')]
