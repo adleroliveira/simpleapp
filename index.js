@@ -13,6 +13,9 @@ var dogwaterOptions = {
     adapters: {
         userDisk: 'sails-disk'
     },
+    defaults: {
+        migrate: 'safe',
+    },
     models: [require('./models/user')]
 };
 
@@ -91,7 +94,7 @@ server.register([
             reply.file('./public/angularControllers/' + request.params.filename);
         }
     });
-    
+
     server.route({
         method: 'GET',
         path: '/avatars/{filename}',
