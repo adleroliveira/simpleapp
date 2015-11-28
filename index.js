@@ -2,7 +2,7 @@ var Hapi = require('hapi');
 var fs = require('fs');
 
 var server = new Hapi.Server();
-server.connection({ port: 3000 });
+server.connection({ port: 5000 });
 
 var dogwaterOptions = {
     connections: {
