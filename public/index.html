@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es-CL" ng-app="userApp">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Just a simple app">
+  <meta name="author" content="Adler Oliveira">
+
+  <title>Simple CRUD example using Node/Hapi/Angular</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    body {
+      padding-top: 70px;
+      /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    }
+    
+
+  </style>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/10.0.2/ng-file-upload.min.js"></script>
+
+</head>
+
+<body ng-controller="userController as App" ng-cloak="">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Adler Oliveira</a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="https://www.facebook.com/adler.oliveira" target="_blank"><i class="fa fa-facebook-square"></i> Facebook</a>
+          </li>
+          <li>
+            <a href="https://twitter.com/AdlerOliveira" target="_blank"><i class="fa fa-twitter-square"></i> Twitter</a>
+          </li>
+          <li>
+            <a href="https://github.com/adleroliveira" target="_blank"><i class="fa fa-github-square"></i> Github</a>
+          </li>
+          <li>
+            <a href="https://cl.linkedin.com/in/adler-oliveira-362b669" target="_blank"><i class="fa fa-linkedin-square"></i> LinkedIn</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-3">
+        <div class="text-center">
+          <br>
+          <br>
+          <img ng-src="{{App.selectedUser.avatar ? '/avatars/' + App.selectedUser.avatar : '//placehold.it/200'}}" class="avatar img"
+          alt="avatar">
+          <h6>Upload a different photo...</h6>
+
+          <div class="btn btn-info" ngf-select="App.uploadAvatar($file)" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="1MB"
+          ngf-min-height="200" ngf-resize="{width: 200, height: 200}">Upload avatar</div>
+        </div>
+      </div>
+
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+        <div class="alert alert-{{App.severity}} alert-dismissable" ng-show="App.showMessage">
+          <a class="panel-close close" data-dismiss="alert">×</a>
+          <i class="fa fa-coffee"></i> {{App.message}}
+        </div>
+        <h3>User info</h3>
+        <form class="form-horizontal css-form" role="form" name="form">
+          <div class="form-group">
+            <label class="col-lg-3 control-label">First name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="App.selectedUser.first_name" name="uName" required>
+              <div ng-show="form.uName.$touched">
+                <span ng-show="form.uName.$error.required">required</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Last name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="App.selectedUser.last_name" name="uLastName" required>
+              <div ng-show="form.uLastName.$touched">
+                <span ng-show="form.uLastName.$error.required">required</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Email:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="email" ng-model="App.selectedUser.email" name="uEmail" required>
+              <div ng-show="form.uEmail.$touched">
+                <span ng-show="form.uEmail.$error.required">required</span>
+                <span ng-show="form.uEmail.$error.email">Invalid E-mail</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Birthday:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" ng-model="App.selectedUser.birthday">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" ng-model="App.selectedUser.password" name="uPassword" required>
+              <div ng-show="form.uConfPassword.$touched">
+                <span ng-show="form.uPassword.$error.required">required</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Confirm password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" ng-model="App.selectedUser.confirmPassword" name="uConfPassword" compare-to="form.uPassword" required>
+              <div ng-show="form.uConfPassword.$touched">
+                <span ng-show="form.uConfPassword.$error.required">required</span>
+                <span ng-show="App.selectedUser.confirmPassword != App.selectedUser.password">Passwords don't match</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input type="button" class="btn btn-success pull-right" value="New User" ng-click="App.createUser()">
+              <span></span>
+              <input type="button" class="btn btn-primary pull-right" value="Update User" ng-disabled="!App.selectedUser.id" ng-click="App.updateUser(App.selectedUser)">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <table class="table table-hover table-condensed">
+        <thead>
+          <tr>
+            <th class="text-center">First Name</th>
+            <th class="text-center">Last Name</th>
+            <th class="text-center">E-mail</th>
+            <th class="text-center">birthday</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in App.users">
+            <td class="text-center">{{user.first_name}}</td>
+            <td class="text-center">{{user.last_name}}</td>
+            <td class="text-center">{{user.email}}</td>
+            <td class="text-center">{{user.birthday}}</td>
+            <td class="text-center">
+              <button type="button" class="btn btn-info" ng-click="App.viewUser(user)">Edit</button>
+              <button type="button" class="btn btn-danger" ng-click="App.deleteUser(user)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/user.js"></script>
+</body>
+
+</html>
