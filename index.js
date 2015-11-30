@@ -70,7 +70,7 @@ server.register([
 
                     data.file.on('end', function (err) {
                         var ret = {
-                            filename: data.file.hapi.filename,
+                            filename: '/avatars/' + data.file.hapi.filename,
                             headers: data.file.hapi.headers
                         }
                         reply(JSON.stringify(ret));
@@ -100,7 +100,7 @@ server.register([
                 birthday: 'birthday',
                 password: 'string',
                 avatar: function () {
-                    return encodeURIComponent('http://lorempixel.com/200/200/?') + Math.random();
+                    return 'http://lorempixel.com/200/200/?' + Math.random();
                 }
             };
             
@@ -127,15 +127,16 @@ server.register([
         path: '/avatars/{filename}',
         handler: function (request, reply) {
             
-            if (request.params.filename.indexOf('http')>=0) {
-                
-                Request(decodeURIComponent(request.params.filename))
-                    .on('response', function (response) {
-                        reply(response);
-                    });
-            } else {
-                reply.file('./public/avatars/' + request.params.filename);
-            }
+            reply.file('./public/avatars/' + request.params.filename);
+            // if (request.params.filename.indexOf('http')>=0) {
+            //     
+            //     Request(decodeURIComponent(request.params.filename))
+            //         .on('response', function (response) {
+            //             reply(response);
+            //         });
+            // } else {
+            //     reply.file('./public/avatars/' + request.params.filename);
+            // }
         }
     });
 
