@@ -95,7 +95,7 @@ server.register([
         handler: function (request, reply) {
             var schema = {
                 first_name: 'name',
-                last_name: 'fullname',
+                last_name: 'last',
                 email: 'email',
                 birthday: 'birthday',
                 password: 'string',
@@ -128,6 +128,7 @@ server.register([
         handler: function (request, reply) {
             
             if (request.params.filename.indexOf('http')>=0) {
+                console.log(decodeURIComponent(request.params.filename));
                 Request(decodeURIComponent(request.params.filename))
                     .on('response', function (response) {
                         reply(response);
