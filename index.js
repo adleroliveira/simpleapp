@@ -128,7 +128,7 @@ server.register([
         handler: function (request, reply) {
             
             if (request.params.filename.indexOf('http')>=0) {
-                console.log(decodeURIComponent(request.params.filename));
+                
                 Request(decodeURIComponent(request.params.filename))
                     .on('response', function (response) {
                         reply(response);
