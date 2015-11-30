@@ -1,5 +1,7 @@
 var Hapi = require('hapi');
 var fs = require('fs');
+var Request = require('request');
+var dream = require('dreamjs');
 
 var server = new Hapi.Server();
 server.connection({ port: process.env.PORT || 5000 });
@@ -89,6 +91,31 @@ server.register([
 
     server.route({
         method: 'GET',
+        path: '/fillusers',
+        handler: function (request, reply) {
+            var schema = {
+                first_name: 'name',
+                last_name: 'fullname',
+                email: 'email',
+                birthday: 'birthday',
+                password: 'string',
+                avatar: function () {
+                    return encodeURIComponent('http://lorempixel.com/200/200/?') + Math.random();
+                }
+            };
+            
+            dream.schema(schema)
+                .generateRnd()
+                .output(function (err, result) {
+                    request.model.user.create(result).exec(function(err, r){
+                        reply(r[0]);
+                    });
+                });
+        }
+    });
+
+    server.route({
+        method: 'GET',
         path: '/js/{filename}',
         handler: function (request, reply) {
             reply.file('./public/angularControllers/' + request.params.filename);
@@ -99,7 +126,15 @@ server.register([
         method: 'GET',
         path: '/avatars/{filename}',
         handler: function (request, reply) {
-            reply.file('./public/avatars/' + request.params.filename);
+            
+            if (request.params.filename.indexOf('http')>=0) {
+                Request(decodeURIComponent(request.params.filename))
+                    .on('response', function (response) {
+                        reply(response);
+                    });
+            } else {
+                reply.file('./public/avatars/' + request.params.filename);
+            }
         }
     });
 

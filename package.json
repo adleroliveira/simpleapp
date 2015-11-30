@@ -25,9 +25,11 @@
     "bedwetter": "^1.8.2",
     "blipp": "^2.3.0",
     "dogwater": "https://github.com/adleroliveira/dogwater/tarball/65be47f29067e9994a8151d4959147325956689a",
+    "dreamjs": "0.0.5",
     "hapi": "^11.1.2",
     "inert": "^3.2.0",
     "lodash": "^3.10.1",
+    "request": "^2.67.0",
     "sails-disk": "^0.10.8",
     "shortid": "^2.2.4"
   }

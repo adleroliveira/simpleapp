@@ -38,6 +38,19 @@ angular.module('userApp', ['ngFileUpload'])
 
 		};
 
+		App.createRandomUser = function () {
+			$http.get('/fillusers')
+				.success(function (randomUser) {
+					App.alert('user created successfuly!', 'success');
+					App.selectedUser = randomUser;
+					App.getUsers();
+				})
+				.error(function (err) {
+					App.alert('Error:' + err.message, 'danger');
+					console.log(err);
+				});
+		};
+
 		App.uploadAvatar = function (file) {
 			if (file) {
 				Upload.upload({
