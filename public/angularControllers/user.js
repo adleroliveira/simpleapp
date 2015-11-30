@@ -57,7 +57,7 @@ angular.module('userApp', ['ngFileUpload'])
 					url: '/uploadfile',
 					data: { file: file }
 				}).then(function (resp) {
-					App.selectedUser.avatar = '/avatars/' + resp.config.data.file.name;
+					App.selectedUser.avatar = resp.config.data.file.name;
 					//console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
 				}, function (resp) {
 					//console.log('Error status: ' + resp.status);
